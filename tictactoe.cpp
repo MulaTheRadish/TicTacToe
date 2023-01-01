@@ -9,6 +9,9 @@ struct coords
     int row, column;
 };
 
+//counts the number of turns completed.
+int turns = 0;
+
 //Array represents a board, each item in the array contains an another array consisting of 5 strings each. 
 string board[5][5] = 
 {
@@ -52,7 +55,13 @@ void game_over(string character)
             count++;
         }
     }
-    if (count > 0)
+    //If the board is filled and none checks returns a cout greater than 0, the game will be a draw. 
+    if (turns >= 8)
+    {
+        cout << "GAME IS A DRAW!!" << endl;
+        exit(0);
+    }
+    else if (count > 0)
     //The game ends with a "Congratulations" if the count is above 0.
     {
         cout << "CONGRATULATIONS" << character << "WON!!" << endl;
@@ -90,6 +99,7 @@ bool players_turn(coords player, int num, string character)
         print_board();
         //After every turn, whether the comp or user, it will check if either has won the game. 
         game_over(character);
+        turns++;    
         return true;
     }
 }
