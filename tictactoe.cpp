@@ -9,7 +9,7 @@ struct coords
     int row, column;
 };
 
-//counts the number of turns completed.
+//Counts the number of turns completed. 
 int turns = 0;
 
 //Array represents a board, each item in the array contains an another array consisting of 5 strings each. 
@@ -21,6 +21,9 @@ string board[5][5] =
     {"---", "|", "---", "|", "---"},
     {" 7 ", "|", " 8 ", "|", " 9 "}
 };
+
+string X_character = "\033[1;34m X \033[0m",
+O_character = "\033[1;31m O \033[0m";
 
 //Prints the board array per row. 
 void print_board() 
@@ -38,7 +41,7 @@ void print_board()
 };
 
 //Checks if any of the conditions to complete the game have been met. 
-void game_over(string character)
+void game_over(string character) 
 {
     int count = 0;
     for (int i = 0; i <= 4; i += 2)
@@ -55,7 +58,6 @@ void game_over(string character)
             count++;
         }
     }
-    //If the board is filled and none checks returns a cout greater than 0, the game will be a draw. 
     if (turns >= 8)
     {
         cout << "GAME IS A DRAW!!" << endl;
@@ -86,8 +88,8 @@ bool players_turn(coords player, int num, string character)
 
     //If there is already a character (" X " or " O ") in the player's chosen position, 
     //it will not substitute the character and return false instead. 
-    if (board[player.row][player.column] == " X " ||
-    board[player.row][player.column] == " O ")
+    if (board[player.row][player.column] == X_character ||
+    board[player.row][player.column] == O_character)
     {
         return false;
     }
@@ -99,7 +101,7 @@ bool players_turn(coords player, int num, string character)
         print_board();
         //After every turn, whether the comp or user, it will check if either has won the game. 
         game_over(character);
-        turns++;    
+        turns++;
         return true;
     }
 }
@@ -113,7 +115,7 @@ void users_turn()
     cin >> input;
 
     //The following line only CHECKS if the position is free. If it is not, it will call on the function again. 
-    if (players_turn(user, input, " X ") == false)
+    if (players_turn(user, input, X_character) == false)
     {
         cout << "That position is currently occupied. Please try again." << endl;
         users_turn();
@@ -121,7 +123,7 @@ void users_turn()
     //If the position is free, it will input the character. 
     else
     {
-        players_turn(user, input, " X ");
+        players_turn(user, input, X_character);
     }
 }
 
@@ -129,8 +131,6 @@ void computers_turn()
 {
     coords computer;
     int input;
-
-    cout << "Computer's turn: " << endl;
     //Will randomly generate a number from 1-9 based on the time. 
     //HOWEVER, sleep(1) was implemented because if the randomly choosen position is taken,
     //The time-based generator needs to wait before outputting another number
@@ -140,13 +140,13 @@ void computers_turn()
     input = rand() % 9 + 1;
 
     //The following line only CHECKS if the position is free. If it is not, it will call on the function again. 
-    if (players_turn(computer, input, " O ") == false)
+    if (players_turn(computer, input, O_character) == false)
     {
         computers_turn();
     }
     else
     {
-        players_turn(computer, input, " O ");
+        players_turn(computer, input, O_character);
     }
 }
 
@@ -159,6 +159,7 @@ int main()
     while (true)
     {
         users_turn();
+        cout << "Computer's turn:" << endl;
         computers_turn();
     }
 }
