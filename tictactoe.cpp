@@ -58,15 +58,15 @@ void game_over(string character)
             count++;
         }
     }
-    if (turns >= 8)
-    {
-        cout << "GAME IS A DRAW!!" << endl;
-        exit(0);
-    }
-    else if (count > 0)
+    if (count > 0)
     //The game ends with a "Congratulations" if the count is above 0.
     {
         cout << "CONGRATULATIONS" << character << "WON!!" << endl;
+        exit(0);
+    }
+    else if (turns >= 8)
+    {
+        cout << "GAME IS A DRAW!!" << endl;
         exit(0);
     }
 }
